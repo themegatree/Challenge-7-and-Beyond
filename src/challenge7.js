@@ -2,7 +2,14 @@
 
 class LetterNumber  {
 
-    encrypt (word) {
+    constructor (word, offSet){
+        
+        let _MssEncrypt = '';
+        this._MssEncrypt = this.encrypt(word, offSet);
+       
+    }
+
+    encrypt (word, offSet) {
 
         const dict = {
             ' ' : '1',
@@ -101,7 +108,7 @@ class LetterNumber  {
             '7' : '94',
             '8' : '95',
             '9' : '96',
-            '0' : '100'
+            '0' : '97'
         };
     
 
@@ -109,18 +116,20 @@ class LetterNumber  {
     
         for (let i = 0; i < word.length; i++) {
             
-            let length = dict[word[i]].length;
+            let val = parseInt(dict[word[i]]) + offSet;
+            let length = val.toString().length;
+           
 
-            if (length === 2) {
-                code += dict[word[i]];
+            if (val < 10) {
+                code += '0' + val.toString();
             }
 
-            if (length === 1) {
-                code += '0' + dict[word[i]];
+            else if (val > 100){
+                code += val.toString().slice((length - 2), length);
             }
-
-            if (length > 2){
-                code += dict[word[i]].slice((length - 2), length);
+            else {
+                code += val.toString();
+                
             }
 
 
@@ -131,14 +140,11 @@ class LetterNumber  {
         return code;
     };
     
-    constructor (word){
-        let _MssEncrypt = '';
-        this._MssEncrypt = this.encrypt(word);
-    }
+    
 
 }
 
 
-message = new LetterNumber ('Hello Ollie!');
+message = new LetterNumber ("Hi, Ed!", 302);
 
 console.log(message._MssEncrypt);
